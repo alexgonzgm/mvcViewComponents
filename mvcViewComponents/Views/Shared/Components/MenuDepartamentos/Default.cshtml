@@ -1,0 +1,15 @@
+﻿@model List<Departamento>
+@{
+    ViewData["Title"] = "Default";
+}
+
+
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Departamentos</a>
+    <div class="dropdown-menu">
+        @foreach (Departamento item in Model)
+        {
+            <a class="dropdown-item" asp-controller="Departamentos" asp-action="Details" asp-route-id="@item.Id">@item.Nombre</a>
+        }
+    </div>
+</li>
