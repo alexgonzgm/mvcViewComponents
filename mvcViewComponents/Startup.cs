@@ -26,7 +26,8 @@ namespace mvcSession3
         public void ConfigureServices(IServiceCollection services)
         {
             string cadenaSql = this.Configuration.GetConnectionString("cadenaSql");
-            services.AddDbContext<HospitalContext>(options => options.UseSqlServer(cadenaSql));
+            string cadenaSqlClase = this.Configuration.GetConnectionString("cadenaSqlClase");
+            services.AddDbContext<HospitalContext>(options => options.UseSqlServer(cadenaSqlClase));
 
             //REPOSITORIES
             services.AddTransient<IRepositoryHospital, RepositoryHospital>();
