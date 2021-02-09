@@ -15,18 +15,15 @@ namespace mvcSession3.Controllers
         {
             this.repository = repository;
         }
-
         public IActionResult Index()
         {
             return View();
         }
-
         public IActionResult Details(int id)
         {
             Departamento departamento = this.repository.FindDepartamento(id);
             return View(departamento);
         }
-
         public IActionResult PaginarVistaDeptRegistro(int? posicion)
         {
             //si no existe posicion mostramos el primer registro 
@@ -77,5 +74,43 @@ namespace mvcSession3.Controllers
             List<VistaDept> departamentos = this.repository.GetGrupoDepartamentos(posicion.Value);
             return View(departamentos);
         }
+        public IActionResult PaginarRegistroDeptSql(int? posicion)
+        {
+            if (posicion == null)
+            {
+                posicion = 1;
+            }
+            int ultimo = 0;
+            Departamento depar = this.repository.GetDepartamentoPosicion(posicion.Value, ref ultimo);
+            int siguiente = posicion.Value + 1;
+            int anterior = posicion.Value - 1;
+            if (siguiente > ultimo)
+            {
+                siguiente = ultimo;
+            }
+            if (anterior< 1 )
+            {
+                anterior = 1;
+            }
+            ViewData["ULTIMO"] = ultimo;
+            ViewData["SIGUIENTE"] = siguiente;
+            ViewData["ANTERIOR"] = anterior;
+            ViewData["POSICION"] = posicion.Value;
+            return View(depar);
+
+        }
+        public IActionResult PaginarGrupoDepartamentosSql(int? posicion)
+        {
+            if (posicion == null)
+            {
+                posicion = 1;
+            }
+            int numeroRegistros = 0;
+            List<Departamento> departamentos =
+                this.repository.GetGrupoDepartamentosSql(posicion.Value, ref numeroRegistros);
+            ViewData["NUMEROREGISTROS"] = numeroRegistros;
+            return View(departamentos);
+        }
+
     }
 }
